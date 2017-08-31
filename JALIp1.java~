@@ -1,0 +1,12 @@
+/* Jacob Liou, CS 3345 Ivor Page
+used javac to compile
+ */
+import java.util.Scanner;
+
+public class JALIp1 {
+
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+		int;
+	}
+}
