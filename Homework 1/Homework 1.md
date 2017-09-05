@@ -17,8 +17,7 @@ void insertAtTail(int ky) { // inserts at the end of the list
     }
 ```
 
-2. Write the private iterative function void delete(int ky) using only ONE reference variable that
-marches along the list (my notes use two reference variables, ref and prev).
+2. Write the private iterative function void delete(int ky) using only ONE reference variable that marches along the list (my notes use two reference variables, ref and prev).
 
 ```java
 void delete(int ky) { // delete the element or do nothing if ky doesn’t exist
@@ -53,6 +52,7 @@ private int maxElement(Node x) {
 ```
 
 4.  Write the private recursive function int sum(Node x) to find the sum of the keys stored in a List.
+
 ```java
 private int sum(Node x) {
       if(x != null) // return -1 if list is empty
@@ -66,6 +66,7 @@ private int sum(Node x) {
 ```
 
 5. Write the private recursive function int length(Node x) to find the number of keys in a List.
+
 ```java
 private int length(Node x) {
       if(x != null) { // return 0 if list is empty
@@ -79,14 +80,26 @@ private int length(Node x) {
 
 6. Assume the addition of two recursiveDelete fuctions, one public and one private. Write both functions.
 
-7. 
-*TA(n)* has run time *O(n^2)* and *TB(n)* has run time 
-8(O(n^3))*
+7.  Algorithm A has running time *TA(n) = 106 + 104 × n + 105 × n2* and algorithm B has running time *TB(n) = 3 × n3*, where n is the number of values the algorithms processes. Give the “big O” equations for the running times and state which algorithm is fastest for large *n*.
 
-*TA* would be faster for large values of *n*
+*TA(n)* has big O *O(n^2)* and *TB(n)* has *8(O(n^3))*
 
-8.
+Algorithm A would be faster for large values of *n*.
 
-9.
+8. Algorithm C has running time *TC (n) = O(n)*, algorithm D has running time *TD(n) = O(log n)*, and algorithm E has running time *TE(n) = O(p(n))*. Which algorithm is the fastest and which is the slowest for large *n*?
+
+For large values of *n*, C is the slowest and D is the fastest.
+
+9.  A linked list as defined above holds N nodes. What is the runtime in ”Big O” notation of an algorithm that searches the list for a given key when:
+
+    (a) The list elements are arbitrarily ordered > *O(n)*
+
+    (b) The list elements are arranged in increasing order > *O(n) because list is singly-linked*
+
+
 
 10.
+
+(a)
+
+(b)
