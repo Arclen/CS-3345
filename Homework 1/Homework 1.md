@@ -10,7 +10,6 @@ void insertAtTail(int ky) { // inserts at the end of the list
         Node temp = head;
         while(temp.getNext() != null) {
           temp = temp.getNext();
-          System.out.print("debug");
         }
         temp.putNext(new Node(temp, ky));
       }
@@ -80,6 +79,17 @@ private int length(Node x) {
 
 6. Assume the addition of two recursiveDelete fuctions, one public and one private. Write both functions.
 
+```java
+public void recursiveDelete(int ky) {
+      recursiveDelete(ky, head);
+    }
+
+private Node recursiveDelete(int ky, Node n) {
+      if (n.getKey() == ky)
+        return n.getNext();
+      return new Node(n.getKey(), n.getNext().remove(ky, n));
+    }
+```
 7.  Algorithm A has running time *TA(n) = 106 + 104 × n + 105 × n2* and algorithm B has running time *TB(n) = 3 × n3*, where n is the number of values the algorithms processes. Give the “big O” equations for the running times and state which algorithm is fastest for large *n*.
 
 *TA(n)* has big O *O(n^2)* and *TB(n)* has *8(O(n^3))*
@@ -100,6 +110,6 @@ For large values of *n*, C is the slowest and D is the fastest.
 
 10.
 
-(a)
+(a) 
 
 (b)

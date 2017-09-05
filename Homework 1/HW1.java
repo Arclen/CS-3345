@@ -17,12 +17,12 @@ public class HW1 {
       Node test_val = new Node(test_tail, 1);  
       test_head.putNext(test_val);
       List list = new List();
-      //list.displayList();
+       //list.displayList();
       list.insertAtTail(3);
       list.insertAtTail(4);
       list.insertAtTail(5);
       list.insertAtTail(6);
-      list.displayList();
+      list.displayList(); 
     }
 
     static class Node {
@@ -69,7 +69,6 @@ public class HW1 {
         Node temp = head;
         while(temp.getNext() != null) {
           temp = temp.getNext();
-          System.out.print("debug");
         }
         temp.putNext(new Node(temp, ky));
       }
@@ -141,7 +140,9 @@ public class HW1 {
       return 0;
     }
     private Node recursiveDelete(int ky, Node n) {
-      return n;
+      if (n.getKey() == ky)
+        return n.getNext();
+      return new Node(n.getKey(), n.getNext().remove(ky, n));
     }
 
   }
