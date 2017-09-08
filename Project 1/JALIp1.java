@@ -3,21 +3,22 @@ import java.io.*;
 /*
  CS 3345
  Project 1
- Used compiler Java 1.8.0_131 
+ Used compiler Java 1.8.0_131
  @author Jacob Liou
  date 8/31/2017
 */
 
 class JALIp1 {
-    
+
 	public static void main(String[] args) throws IOException {
-	    //Scanner in = new Scanner(new File("data1.txt"));
-	    Scanner in = new Scanner(System.in);
-	    Totem marioKart = new Totem();
-		marioKart.insertAtTail(21);
+	  //Scanner in = new Scanner(new File("data1.txt"));
+	  Scanner in = new Scanner(System.in);
+	  Totem marioKart = new Totem();
+    marioKart.insertAtTail(21);
+    System.out.println("Welcome to your reckoning baybeeeeeee");
 	}
     static class Node {
-	private int ID; 
+	private int ID;
 	private Node next;
 
 	Node(int ID, Node nxt) {
@@ -44,7 +45,7 @@ class JALIp1 {
 
     static class Totem {
 	private Node head, tail;
-	
+
 	void insertAtTail(int ID) {
 	    Node ins = new Node(ID, head);
 	    while(ins.getNext() != tail) {
@@ -68,7 +69,9 @@ class JALIp1 {
 	}
 
 	void insert(int ID, int posn) {
-	    
+	    if(head != null) {
+
+	    }
 	}
     }
 }
