@@ -1,2 +1,11 @@
-# CS-3345
-My code for CS 3345, Data Structures and Algorithms. I'll ask politely that you don't copy, in the end you'll only set yourself back
+# A long, long time ago
+
+There was a student who wandered into a repository.....
+
+`Hey! This looks like the solution to my homework!` cried the student
+
+The student was foolish, and copied the code straight from the repo without a second thought...
+
+**He failed**
+
+## *End of story*
