@@ -15,7 +15,7 @@ class JALIp1 {
 	  Scanner in = new Scanner(System.in);
 	  Totem marioKart = new Totem();
     marioKart.insertAtTail(21);
-    System.out.println("Welcome to your reckoning baybeeeeeee");
+    System.out.println(marioKart.getHead().getNext().getID());
 	}
     static class Node {
 	private int ID;
@@ -70,8 +70,24 @@ class JALIp1 {
 
 	void insert(int ID, int posn) {
 	    if(head != null) {
-
+				Node ins = new Node(ID, head.getNext());
+				for(int i = 0; i < posn; i++)
+					ins.putNext(ins.getNext());
 	    }
 	}
-    }
+
+	void swap(int ID) {
+		Node ref = head;
+		if(head != null) {
+			if(ref.getNext().getID() == ID) {
+				Node temp = ref;
+				
+			}
+		}
+	}
+
+	Node getHead() {
+		return head;
+	}
+  }
 }
