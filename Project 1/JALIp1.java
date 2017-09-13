@@ -16,6 +16,21 @@ class JALIp1 {
 	  Totem marioKart = new Totem();
     marioKart.insertAtTail(21);
     System.out.println(marioKart.getHead().getNext().getID());
+
+		boolean done = false;
+		while(!done) {
+			String line = in.next();
+			String [] tokens = line.split(" ");
+			switch(tokens[0]) {
+				case "START":
+
+					break;
+				case "DROPOUT":
+
+					break;
+
+			}
+		}
 	}
     static class Node {
 	private int ID;
@@ -81,7 +96,7 @@ class JALIp1 {
 		if(head != null) {
 			if(ref.getNext().getID() == ID) {
 				Node temp = ref;
-				
+
 			}
 		}
 	}
