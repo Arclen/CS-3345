@@ -13,12 +13,13 @@ class JALIp1 {
 	public static void main(String[] args) throws IOException {
 	  //Scanner in = new Scanner(new File("data1.txt"));
 	  Scanner in = new Scanner(System.in);
-	  Totem marioKart = new Totem();
+	  Totem marioKart = new Totem(-1);
     marioKart.insertAtTail(21);
     System.out.println(marioKart.getHead().getNext().getID());
 
 		boolean done = false;
 		while(!done) {
+			System.out.print("DEBUG ");
 			String line = in.next();
 			String [] tokens = line.split(" ");
 			switch(tokens[0]) {
@@ -61,13 +62,28 @@ class JALIp1 {
     static class Totem {
 	private Node head, tail;
 
+	public Totem(int i) {
+		head = new Node(-1, tail);
+		tail = new Node(-1, null);
+	}
+
 	void insertAtTail(int ID) {
-	    Node ins = new Node(ID, head);
-	    while(ins.getNext() != tail) {
-		if(ins.getNext().getNext() == tail)
-		    ins.getNext().putNext(ins);
-		ins.putNext(ins.getNext());
-	    }
+			if(head != null) {
+				System.out.println("insertAtTail is working");
+				Node ref = head;
+				if(ref.getNext() == tail) {
+					System.out.println("Ok this should not be triggered");
+					ref.putNext(new Node(ID, tail));
+				}
+			  else {
+					while(ref != tail) {
+						System.out.print("It thinks that ref is in da middle of da list");
+						if(ref.getNext() == tail)
+					    ref.putNext(new Node(ID, tail));
+						ref.putNext(ref.getNext());
+			  	}
+				}
+			}
 	}
 
 	void remove(int ID) {
