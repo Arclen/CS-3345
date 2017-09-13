@@ -15,7 +15,11 @@ class JALIp1 {
 	  Scanner in = new Scanner(System.in);
 	  Totem marioKart = new Totem(-1);
     marioKart.insertAtTail(21);
-    System.out.println(marioKart.getHead().getNext().getID());
+		// marioKart.insert(21, 0);
+		// marioKart.insert(44, 1);
+		// marioKart.insert(52, 2);
+
+		System.out.println(marioKart.getHead().getNext().getID());
 
 		boolean done = false;
 		while(!done) {
@@ -63,8 +67,8 @@ class JALIp1 {
 	private Node head, tail;
 
 	public Totem(int i) {
+		tail = new Node(-2, null);
 		head = new Node(-1, tail);
-		tail = new Node(-1, null);
 	}
 
 	void insertAtTail(int ID) {
@@ -76,11 +80,12 @@ class JALIp1 {
 					ref.putNext(new Node(ID, tail));
 				}
 			  else {
-					while(ref != tail) {
-						System.out.print("It thinks that ref is in da middle of da list");
+					while(ref != tail && ref.getNext() != tail) {
+						System.out.println("It thinks that ref is in da middle of da list");
 						if(ref.getNext() == tail)
 					    ref.putNext(new Node(ID, tail));
-						ref.putNext(ref.getNext());
+						else
+							ref.putNext(ref.getNext());
 			  	}
 				}
 			}
