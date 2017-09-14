@@ -10,20 +10,19 @@ import java.io.*;
 
 class JALIp1 {
 
-	public static void main(String[] args) throws IOException {
-	  //Scanner in = new Scanner(new File("data1.txt"));
-	  Scanner in = new Scanner(System.in);
+	public static void main(String[] args) throws IOException{
+	  Scanner in = new Scanner(new File("carsd1.txt"));
+	  // Scanner in = new Scanner(System.in);
 	  Totem marioKart = new Totem(-1);
     marioKart.insertAtTail(21);
-		// marioKart.insert(21, 0);
-		// marioKart.insert(44, 1);
-		// marioKart.insert(52, 2);
+		marioKart.insert(21, 0);
+		marioKart.insert(44, 1);
+		marioKart.insert(52, 2);
 
 		System.out.println(marioKart.getHead().getNext().getID());
 
 		boolean done = false;
 		while(!done) {
-			System.out.print("DEBUG ");
 			String line = in.next();
 			String [] tokens = line.split(" ");
 			switch(tokens[0]) {
