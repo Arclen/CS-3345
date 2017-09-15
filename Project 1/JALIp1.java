@@ -24,12 +24,13 @@ class JALIp1 {
 				case "START":
 					for(int i=2; i <= Integer.parseInt(tokens[1])+2; i++) {
 						System.out.print(tokens[i] + " ");
-						tot.insertAtTail(Integer.parseInt(tokens[i]));
+						tot.insert(Integer.parseInt(tokens[i]), i-2);
+						//System.out.println(tot.getHead().getNext().getID());
 					}
-					System.out.print("\n");
+					tot.contents();
 				break;
 				case "DROPOUT":
-					System.out.println("DROPOUT is working");
+					tot.remove(Integer.parseInt(tokens[1]));
 				break;
 				case "OVERTAKE":
 					System.out.println("OVERTAKE is working");
@@ -88,11 +89,10 @@ class JALIp1 {
 			}
 
 			void insertAtTail(int ID) {
+					size++;
 					if(head != null) {
-						System.out.println("insertAtTail is working");
 						Node ref = head;
 						if(ref.getNext() == tail) {
-							System.out.println("Ok this should not be triggered");
 							ref.putNext(new Node(ID, tail));
 						}
 					  else {
@@ -102,7 +102,6 @@ class JALIp1 {
 									Node temp = ref.getNext();
 							    ref.putNext(new Node(ID, tail));
 									temp.putNext(ref);
-									System.out.println("Assigning new node");
 									atTail = true;
 								}
 								ref = ref.getNext();
@@ -135,6 +134,20 @@ class JALIp1 {
 		    }
 				size--;
 			}
+
+			void delete(int ID) {
+				if(head!=null) {
+					if(head.getID()==ID) // the first Node contains ky
+						head = head.getNext();
+					else {
+						Node x = head;
+						while(x.getNext()!=null) {
+							if(x.getNext().getID()==ID)
+								x.putNext(x.getNext().getNext());
+						}
+					} // end of else
+				}
+			} // end of delete
 
 			void insert(int ID, int posn) {
 		    Node ins = new Node(ID, null);
@@ -169,6 +182,14 @@ class JALIp1 {
 
 			Node getHead() {
 				return head;
+			}
+
+			void contents() {
+				Node ref = head;
+				for(int i=0; i<size; i++) {
+					System.out.print(ref.getNext().getID()+ " ");
+					ref = ref.getNext();
+				}
 			}
 	  }
 }
