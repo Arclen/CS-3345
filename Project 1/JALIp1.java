@@ -14,19 +14,7 @@ class JALIp1 {
 	public static void main(String[] args) throws IOException{
 	  Scanner in = new Scanner(new File("carsd1.txt"));
 	  //Scanner in = new Scanner(System.in);
-	  Totem marioKart = new Totem(-1);
-    marioKart.insertAtTail(21);
-		marioKart.insert(21, 0);
-		marioKart.insert(44, 1);
-		System.out.println(marioKart.getHead().getNext().getID());
-		marioKart.insertAtTail(78);
-		System.out.println(marioKart.getHead().getNext().getID());
-		marioKart.insert(24,0);
-		marioKart.remove(24);
-		System.out.println(marioKart.getHead().getNext().getID());
-		marioKart.insert(55,1);
-		marioKart.remove(55);
-		System.out.println(marioKart.getHead().getNext().getID());
+	  Totem tot = new Totem();
 
 		boolean done = false;
 		while(!done) {
@@ -34,8 +22,10 @@ class JALIp1 {
 			String [] tokens = line.split(" ");
 			switch(tokens[0]) {
 				case "START":
-					for(int i=2; i <= Integer.parseInt(tokens[1])+2; i++)
+					for(int i=2; i <= Integer.parseInt(tokens[1])+2; i++) {
 						System.out.print(tokens[i] + " ");
+						tot.insertAtTail(Integer.parseInt(tokens[i]));
+					}
 					System.out.print("\n");
 				break;
 				case "DROPOUT":
@@ -91,7 +81,7 @@ class JALIp1 {
 			private Node head, tail;
 			private int size;
 
-			public Totem(int i) {
+			public Totem() {
 				tail = new Node(-2, null);
 				head = new Node(-1, tail);
 				size = 0;
@@ -171,6 +161,10 @@ class JALIp1 {
 
 					}
 				}
+			}
+
+			int getSize() {
+				return size;
 			}
 
 			Node getHead() {
