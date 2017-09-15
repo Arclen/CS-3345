@@ -27,7 +27,7 @@ class JALIp1 {
 						tot.insert(Integer.parseInt(tokens[i]), i-2);
 						//System.out.println(tot.getHead().getNext().getID());
 					}
-					tot.contents();
+					System.out.println("\nRace order: ");
 				break;
 				case "DROPOUT":
 					tot.remove(Integer.parseInt(tokens[1]));
@@ -48,8 +48,8 @@ class JALIp1 {
 					System.out.println("END is working");
 					done = true;
 				break;
-
 			}
+			tot.contents();
 		}
 	}
   static class Node {
@@ -151,7 +151,7 @@ class JALIp1 {
 
 			void insert(int ID, int posn) {
 		    Node ins = new Node(ID, null);
-				if(head == null)
+				if(head.getNext() == tail) // The totem is empty
 					head = ins;
 				Node ref = head;
 				posn = posn -1;
@@ -186,10 +186,15 @@ class JALIp1 {
 
 			void contents() {
 				Node ref = head;
-				for(int i=0; i<size; i++) {
+				// for(int i=0; i<size; i++) {
+				// 	System.out.print(ref.getNext().getID()+ " ");
+				// 	ref = ref.getNext();
+				// }
+				while(ref.getNext() != null) {
 					System.out.print(ref.getNext().getID()+ " ");
 					ref = ref.getNext();
 				}
+				System.out.print("\n");
 			}
 	  }
 }
