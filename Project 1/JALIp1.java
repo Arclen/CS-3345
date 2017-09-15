@@ -22,9 +22,11 @@ class JALIp1 {
 		marioKart.insertAtTail(78);
 		System.out.println(marioKart.getHead().getNext().getID());
 		marioKart.insertAtTail(24);
+		marioKart.remove(24);
 		System.out.println(marioKart.getHead().getNext().getID());
 		marioKart.insertAtTail(55);
-		System.out.println(marioKart.getHead().getNext().getNext().getID());
+		marioKart.remove(55);
+		System.out.println(marioKart.getHead().getNext().getID());
 
 		boolean done = false;
 		while(!done) {
@@ -93,11 +95,23 @@ class JALIp1 {
 									System.out.println("Assigning new node");
 									atTail = true;
 								}
-								ref.putNext(ref.getNext());
+								ref = ref.getNext();
 					  	}
 						}
 					}
 			}
+
+			// void insertAtTail(int ID) {
+			// 	if(head==null)
+			// 		head = new Node(ID, null);
+			// 	else {
+			// 		Node p = head;
+			// 		while(p.getNext() != null)
+			// 			p = p.getNext();
+			// 		// now p refers to the last Node
+			// 		p.putNext(new Node(ID, null));
+			// 	}
+			// }
 
 			void remove(int ID) {
 			    if(head != null) {
