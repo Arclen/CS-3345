@@ -18,10 +18,13 @@ class JALIp1 {
     marioKart.insertAtTail(21);
 		marioKart.insert(21, 0);
 		marioKart.insert(44, 1);
-		marioKart.insertAtTail(78);
-		marioKart.insert(52, 2);
-
 		System.out.println(marioKart.getHead().getNext().getID());
+		marioKart.insertAtTail(78);
+		System.out.println(marioKart.getHead().getNext().getID());
+		marioKart.insertAtTail(24);
+		System.out.println(marioKart.getHead().getNext().getID());
+		marioKart.insertAtTail(55);
+		System.out.println(marioKart.getHead().getNext().getNext().getID());
 
 		boolean done = false;
 		while(!done) {
@@ -81,12 +84,16 @@ class JALIp1 {
 							ref.putNext(new Node(ID, tail));
 						}
 					  else {
-							while(ref != tail && ref.getNext() != tail) {
-								System.out.println("It thinks that ref is in da middle of da list");
-								if(ref.getNext() == tail)
+							boolean atTail = false;
+							while(!atTail) {
+								if(ref.getNext().getNext() == tail) {
+									Node temp = ref.getNext();
 							    ref.putNext(new Node(ID, tail));
-								else
-									ref.putNext(ref.getNext());
+									temp.putNext(ref);
+									System.out.println("Assigning new node");
+									atTail = true;
+								}
+								ref.putNext(ref.getNext());
 					  	}
 						}
 					}
