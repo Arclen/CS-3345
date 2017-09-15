@@ -12,8 +12,8 @@ import java.io.*;
 class JALIp1 {
 
 	public static void main(String[] args) throws IOException{
-	  //Scanner in = new Scanner(new File("carsd1.txt"));
-	  Scanner in = new Scanner(System.in);
+	  Scanner in = new Scanner(new File("carsd1.txt"));
+	  //Scanner in = new Scanner(System.in);
 	  Totem marioKart = new Totem(-1);
     marioKart.insertAtTail(21);
 		marioKart.insert(21, 0);
@@ -21,24 +21,42 @@ class JALIp1 {
 		System.out.println(marioKart.getHead().getNext().getID());
 		marioKart.insertAtTail(78);
 		System.out.println(marioKart.getHead().getNext().getID());
-		marioKart.insertAtTail(24);
+		marioKart.insert(24,0);
 		marioKart.remove(24);
 		System.out.println(marioKart.getHead().getNext().getID());
-		marioKart.insertAtTail(55);
+		marioKart.insert(55,1);
 		marioKart.remove(55);
 		System.out.println(marioKart.getHead().getNext().getID());
 
 		boolean done = false;
 		while(!done) {
-			String line = in.next();
+			String line = in.nextLine();
 			String [] tokens = line.split(" ");
 			switch(tokens[0]) {
 				case "START":
-
-					break;
+					for(int i=2; i <= Integer.parseInt(tokens[1])+2; i++)
+						System.out.print(tokens[i] + " ");
+					System.out.print("\n");
+				break;
 				case "DROPOUT":
-
-					break;
+					System.out.println("DROPOUT is working");
+				break;
+				case "OVERTAKE":
+					System.out.println("OVERTAKE is working");
+				break;
+				case "PITSTOP":
+					System.out.println("PITSTOP is working");
+				break;
+				case "PITRETURN":
+					System.out.println("PITRETURN is working");
+				break;
+				case "CRASH":
+					System.out.println("CRASH is working");
+				break;
+				case "END":
+					System.out.println("END is working");
+					done = true;
+				break;
 
 			}
 		}
@@ -71,10 +89,12 @@ class JALIp1 {
 
 	  static class Totem {
 			private Node head, tail;
+			private int size;
 
 			public Totem(int i) {
 				tail = new Node(-2, null);
 				head = new Node(-1, tail);
+				size = 0;
 			}
 
 			void insertAtTail(int ID) {
@@ -102,36 +122,45 @@ class JALIp1 {
 			}
 
 			// void insertAtTail(int ID) {
-			// 	if(head==null)
-			// 		head = new Node(ID, null);
+			// 	Node ref = new Node(ID, null);
+			// 	size++;
+			// 	if(head == null)
+			// 		head = ref;
 			// 	else {
-			// 		Node p = head;
-			// 		while(p.getNext() != null)
-			// 			p = p.getNext();
-			// 		// now p refers to the last Node
-			// 		p.putNext(new Node(ID, null));
+			// 		tail.putNext(ref);
+			// 		tail = ref;
 			// 	}
 			// }
 
 			void remove(int ID) {
-			    if(head != null) {
-				Node looker = head;
-				Node prev = null;
-				while(looker != null && looker.getID() != ID) {
-				    prev = looker;
-				    looker = looker.getNext();
-				}
-				if(looker != null)
-				    prev.putNext(looker.getNext());
-			    }
+		    if(head != null) {
+					Node looker = head;
+					Node prev = null;
+					while(looker != null && looker.getID() != ID) {
+					    prev = looker;
+					    looker = looker.getNext();
+					}
+					if(looker != null)
+					    prev.putNext(looker.getNext());
+		    }
+				size--;
 			}
 
 			void insert(int ID, int posn) {
-			    if(head != null) {
-						Node ins = new Node(ID, head.getNext());
-						for(int i = 0; i < posn; i++)
-							ins.putNext(ins.getNext());
-			    }
+		    Node ins = new Node(ID, null);
+				if(head == null)
+					head = ins;
+				Node ref = head;
+				posn = posn -1;
+				for(int i=1; i<size; i++) {
+					if(i == posn) {
+						Node temp = ref.getNext();
+						ref.putNext(ins);
+						ins.putNext(temp);
+					}
+					ref = ref.getNext();
+				}
+				size++;
 			}
 
 			void swap(int ID) {
