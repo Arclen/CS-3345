@@ -17,41 +17,41 @@ class JALIp1 {
 	  Totem tot = new Totem();
 
 		boolean done = false;
+		boolean debug = false;
 		while(!done) {
 			String line = in.nextLine();
 			String [] tokens = line.split(" ");
 			switch(tokens[0]) {
 				case "START":
-					for(int i=2; i <= Integer.parseInt(tokens[1])+2; i++) {
-						System.out.print(tokens[i] + " ");
-						tot.insert(Integer.parseInt(tokens[i]), i-2);
+					for(int i=3; i <= Integer.parseInt(tokens[1])+3; i++) {
+						System.out.print(tokens[i-1] + " ");
+						tot.insert(Integer.parseInt(tokens[i-1]), i-3);
 						//System.out.println(tot.getHead().getNext().getID());
 					}
 					System.out.println("\nRace order: ");
+					if(Integer.parseInt(tokens[2]) == 1)
+						debug = true;
 				break;
 				case "DROPOUT":
-					System.out.print("DROPOUT ");
 					tot.remove(Integer.parseInt(tokens[1]));
 				break;
 				case "OVERTAKE":
-					System.out.print("OVERTAKE ");
 					tot.swap(Integer.parseInt(tokens[1]));
 				break;
 				case "PITSTOP":
-					System.out.println("PITSTOP is working");
 				break;
 				case "PITRETURN":
-					System.out.println("PITRETURN is working");
 				break;
 				case "CRASH":
-					System.out.println("CRASH is working");
 				break;
 				case "END":
-					System.out.println("END is working");
 					done = true;
 				break;
 			}
-			tot.contents();
+			if(debug) {
+				System.out.print(tokens[0] + " ");
+				tot.contents();
+			}
 		}
 	}
   static class Node {
@@ -112,6 +112,22 @@ class JALIp1 {
 					}
 			}
 
+			void insert(int ID, int posn) {
+				Node ins = new Node(ID, null);
+				if(head.getNext() == tail) // The totem is empty
+				head = ins;
+				Node ref = head;
+				posn = posn -1;
+				for(int i=1; i<size; i++) {
+					if(i == posn) {
+						Node temp = ref.getNext();
+						ref.putNext(ins);
+						ins.putNext(temp);
+					}
+					ref = ref.getNext();
+				}
+				size++;
+			}
 			// void insertAtTail(int ID) {
 			// 	Node ref = new Node(ID, null);
 			// 	size++;
@@ -151,29 +167,13 @@ class JALIp1 {
 				}
 			} // end of delete
 
-			void insert(int ID, int posn) {
-		    Node ins = new Node(ID, null);
-				if(head.getNext() == tail) // The totem is empty
-					head = ins;
-				Node ref = head;
-				posn = posn -1;
-				for(int i=1; i<size; i++) {
-					if(i == posn) {
-						Node temp = ref.getNext();
-						ref.putNext(ins);
-						ins.putNext(temp);
-					}
-					ref = ref.getNext();
-				}
-				size++;
-			}
 
 			void swap(int ID) {
 				Node ref = head;
 				if(head != null) {
 					if(ref.getNext().getID() == ID) {
 						Node temp = ref;
-
+						ref = ref.getNext();
 					}
 				}
 			}
