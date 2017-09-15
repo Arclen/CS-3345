@@ -30,10 +30,12 @@ class JALIp1 {
 					System.out.println("\nRace order: ");
 				break;
 				case "DROPOUT":
+					System.out.print("DROPOUT ");
 					tot.remove(Integer.parseInt(tokens[1]));
 				break;
 				case "OVERTAKE":
-					System.out.println("OVERTAKE is working");
+					System.out.print("OVERTAKE ");
+					tot.swap(Integer.parseInt(tokens[1]));
 				break;
 				case "PITSTOP":
 					System.out.println("PITSTOP is working");
