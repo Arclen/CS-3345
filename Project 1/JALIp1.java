@@ -12,7 +12,7 @@ import java.io.*;
 class JALIp1 {
 
 	public static void main(String[] args) throws IOException{
-	  Scanner in = new Scanner(new File("carsd1.txt"));
+	  Scanner in = new Scanner(new File("carsd3.txt"));
 	  //Scanner in = new Scanner(System.in);
 	  Totem tot = new Totem();
 
@@ -23,11 +23,11 @@ class JALIp1 {
 			String [] tokens = line.split(" ");
 			switch(tokens[0]) {
 				case "START":
-					for(int i=3; i <= Integer.parseInt(tokens[1])+2; i++) {
+					for(int i=3; i <= Integer.parseInt(tokens[1])+4; i++) {
 						// System.out.print(tokens[i-1] + " ");
 						tot.insert(Integer.parseInt(tokens[i-2]), i-3);
 					}
-					System.out.println("\nRace order: ");
+					// System.out.println("\nRace order: ");
 					if(Integer.parseInt(tokens[2]) == 1)
 						debug = true;
 				break;
@@ -52,6 +52,7 @@ class JALIp1 {
 				tot.contents();
 			}
 		}
+		tot.contents();
 	}
   static class Node {
 		private int ID;
