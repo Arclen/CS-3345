@@ -23,10 +23,9 @@ class JALIp1 {
 			String [] tokens = line.split(" ");
 			switch(tokens[0]) {
 				case "START":
-					for(int i=3; i <= Integer.parseInt(tokens[1])+3; i++) {
-						System.out.print(tokens[i-1] + " ");
-						tot.insert(Integer.parseInt(tokens[i-1]), i-3);
-						//System.out.println(tot.getHead().getNext().getID());
+					for(int i=3; i <= Integer.parseInt(tokens[1])+2; i++) {
+						// System.out.print(tokens[i-1] + " ");
+						tot.insert(Integer.parseInt(tokens[i-2]), i-3);
 					}
 					System.out.println("\nRace order: ");
 					if(Integer.parseInt(tokens[2]) == 1)
@@ -87,7 +86,7 @@ class JALIp1 {
 			public Totem() {
 				tail = new Node(-2, null);
 				head = new Node(-1, tail);
-				size = 0;
+				size = 1;
 			}
 
 			void insertAtTail(int ID) {
