@@ -12,7 +12,7 @@ import java.io.*;
 class JALIp1 {
 
 	public static void main(String[] args) throws IOException{
-	  Scanner in = new Scanner(new File("carsd3.txt"));
+	  Scanner in = new Scanner(new File("carsd1.txt"));
 	  //Scanner in = new Scanner(System.in);
 	  Totem tot = new Totem();
 
@@ -42,6 +42,9 @@ class JALIp1 {
 				case "PITRETURN":
 				break;
 				case "CRASH":
+					for(int i=1; i<tokens.length; i++) {
+							 tot.remove(Integer.parseInt(tokens[i]));
+					}
 				break;
 				case "END":
 					done = true;
@@ -128,16 +131,6 @@ class JALIp1 {
 				}
 				size++;
 			}
-			// void insertAtTail(int ID) {
-			// 	Node ref = new Node(ID, null);
-			// 	size++;
-			// 	if(head == null)
-			// 		head = ref;
-			// 	else {
-			// 		tail.putNext(ref);
-			// 		tail = ref;
-			// 	}
-			// }
 
 			void remove(int ID) {
 		    if(head != null) {
@@ -153,26 +146,18 @@ class JALIp1 {
 				size--;
 			}
 
-			void delete(int ID) {
-				if(head!=null) {
-					if(head.getID()==ID) // the first Node contains ky
-						head = head.getNext();
-					else {
-						Node x = head;
-						while(x.getNext()!=null) {
-							if(x.getNext().getID()==ID)
-								x.putNext(x.getNext().getNext());
-						}
-					} // end of else
-				}
-			} // end of delete
-
-
 			void swap(int ID) {
 				Node ref = head;
 				if(head != null) {
-					if(ref.getNext().getID() == ID) {
-						Node temp = ref;
+					while(ref.getNext().getNext() != null) {
+						if(ref.getNext().getNext().getID() == ID) {
+							Node temp1 = ref.getNext();
+							Node temp2 = ref.getNext().getNext();
+							Node temp3 = ref.getNext().getNext().getNext();
+							ref.getNext().getNext().putNext(temp1);
+							ref.getNext().putNext(temp3);
+							ref.putNext(temp2);
+						}
 						ref = ref.getNext();
 					}
 				}
@@ -188,10 +173,6 @@ class JALIp1 {
 
 			void contents() {
 				Node ref = head;
-				// for(int i=0; i<size; i++) {
-				// 	System.out.print(ref.getNext().getID()+ " ");
-				// 	ref = ref.getNext();
-				// }
 				while(ref.getNext() != null) {
 					System.out.print(ref.getNext().getID()+ " ");
 					ref = ref.getNext();
