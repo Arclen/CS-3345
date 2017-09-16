@@ -13,7 +13,7 @@ class JALIp1 {
 
 	public static void main(String[] args) throws IOException{
 	  Scanner in = new Scanner(new File("carsd1.txt"));
-	  //Scanner in = new Scanner(System.in);
+	  // Scanner in = new Scanner(System.in);
 	  Totem tot = new Totem();
 
 		boolean done = false;
@@ -38,8 +38,10 @@ class JALIp1 {
 					tot.swap(Integer.parseInt(tokens[1]));
 				break;
 				case "PITSTOP":
+					tot.remove(Integer.parseInt(tokens[1]));
 				break;
 				case "PITRETURN":
+					tot.insert(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])+2);
 				break;
 				case "CRASH":
 					for(int i=1; i<tokens.length; i++) {
@@ -50,12 +52,12 @@ class JALIp1 {
 					done = true;
 				break;
 			}
-			if(debug) {
-				System.out.print(tokens[0] + " ");
+			if(debug && tokens[0] != "END") {
 				tot.contents();
 			}
 		}
-		tot.contents();
+		if(!debug)
+			tot.contents();
 	}
   static class Node {
 		private int ID;
@@ -81,103 +83,102 @@ class JALIp1 {
 		void putID(int val) {
 		    ID = val;
 		}
-	    }
+	}
+  static class Totem {
+		private Node head, tail;
+		private int size;
 
-	  static class Totem {
-			private Node head, tail;
-			private int size;
+		public Totem() {
+			tail = new Node(-2, null);
+			head = new Node(-1, tail);
+			size = 1;
+		}
 
-			public Totem() {
-				tail = new Node(-2, null);
-				head = new Node(-1, tail);
-				size = 1;
-			}
-
-			void insertAtTail(int ID) {
-					size++;
-					if(head != null) {
-						Node ref = head;
-						if(ref.getNext() == tail) {
-							ref.putNext(new Node(ID, tail));
-						}
-					  else {
-							boolean atTail = false;
-							while(!atTail) {
-								if(ref.getNext().getNext() == tail) {
-									Node temp = ref.getNext();
-							    ref.putNext(new Node(ID, tail));
-									temp.putNext(ref);
-									atTail = true;
-								}
-								ref = ref.getNext();
-					  	}
-						}
-					}
-			}
-
-			void insert(int ID, int posn) {
-				Node ins = new Node(ID, null);
-				if(head.getNext() == tail) // The totem is empty
-				head = ins;
-				Node ref = head;
-				posn = posn -1;
-				for(int i=1; i<size; i++) {
-					if(i == posn) {
-						Node temp = ref.getNext();
-						ref.putNext(ins);
-						ins.putNext(temp);
-					}
-					ref = ref.getNext();
-				}
+		void insertAtTail(int ID) {
 				size++;
-			}
-
-			void remove(int ID) {
-		    if(head != null) {
-					Node looker = head;
-					Node prev = null;
-					while(looker != null && looker.getID() != ID) {
-					    prev = looker;
-					    looker = looker.getNext();
-					}
-					if(looker != null)
-					    prev.putNext(looker.getNext());
-		    }
-				size--;
-			}
-
-			void swap(int ID) {
-				Node ref = head;
 				if(head != null) {
-					while(ref.getNext().getNext() != null) {
-						if(ref.getNext().getNext().getID() == ID) {
-							Node temp1 = ref.getNext();
-							Node temp2 = ref.getNext().getNext();
-							Node temp3 = ref.getNext().getNext().getNext();
-							ref.getNext().getNext().putNext(temp1);
-							ref.getNext().putNext(temp3);
-							ref.putNext(temp2);
-						}
-						ref = ref.getNext();
+					Node ref = head;
+					if(ref.getNext() == tail) {
+						ref.putNext(new Node(ID, tail));
+					}
+				  else {
+						boolean atTail = false;
+						while(!atTail) {
+							if(ref.getNext().getNext() == tail) {
+								Node temp = ref.getNext();
+						    ref.putNext(new Node(ID, tail));
+								temp.putNext(ref);
+								atTail = true;
+							}
+							ref = ref.getNext();
+				  	}
 					}
 				}
-			}
+		}
 
-			int getSize() {
-				return size;
+		void insert(int ID, int posn) {
+			Node ins = new Node(ID, null);
+			if(head.getNext() == tail) // The totem is empty
+			head = ins;
+			Node ref = head;
+			posn = posn-1;
+			for(int i=1; i<size; i++) {
+				if(i == posn) {
+					Node temp = ref.getNext();
+					ref.putNext(ins);
+					ins.putNext(temp);
+				}
+				ref = ref.getNext();
 			}
+			size++;
+		}
 
-			Node getHead() {
-				return head;
-			}
+		void remove(int ID) {
+	    if(head != null) {
+				Node looker = head;
+				Node prev = null;
+				while(looker != null && looker.getID() != ID) {
+				    prev = looker;
+				    looker = looker.getNext();
+				}
+				if(looker != null)
+				    prev.putNext(looker.getNext());
+	    }
+			size--;
+		}
 
-			void contents() {
-				Node ref = head;
-				while(ref.getNext() != null) {
-					System.out.print(ref.getNext().getID()+ " ");
+		void swap(int ID) {
+			Node ref = head;
+			if(head != null) {
+				while(ref.getNext().getNext() != null) {
+					if(ref.getNext().getNext().getID() == ID) {
+						Node temp1 = ref.getNext();
+						Node temp2 = ref.getNext().getNext();
+						Node temp3 = ref.getNext().getNext().getNext();
+						ref.getNext().getNext().putNext(temp1);
+						ref.getNext().putNext(temp3);
+						ref.putNext(temp2);
+					}
 					ref = ref.getNext();
 				}
-				System.out.print("\n");
 			}
-	  }
+		}
+
+		int getSize() {
+			return size;
+		}
+
+		Node getHead() {
+			return head;
+		}
+
+		void contents() {
+			Node ref = head;
+			while(ref.getNext() != null) {
+				System.out.print(ref.getNext().getID()+ " ");
+				ref = ref.getNext();
+			}
+			System.out.print("\n");
+		}
+  }
 }
