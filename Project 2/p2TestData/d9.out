@@ -1,0 +1,9 @@
+
+
+The total number of inserts = 300
+The total number of deletes = 100
+The total number of splays = 100
+The total number of nodes probed during searches = 881
+The average number of nodes probed during searches = 8.81
+The total number of rotations during splays = 427
+The average number of rotations during splays = 4.27

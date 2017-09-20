@@ -1,0 +1,56 @@
+key 20 inserted
+key 10 inserted
+key 30 inserted
+key 5 inserted
+key 15 inserted
+key 25 inserted
+key 35 inserted
+key 2 inserted
+key 7 inserted
+key 12 inserted
+key 16 inserted
+key 22 inserted
+key 27 inserted
+key 32 inserted
+key 37 inserted
+20 
+10 30 
+5 15 25 35 
+2 7 12 16 22 27 32 37 
+key 37 deleted
+20 
+10 30 
+5 15 25 35 
+2 7 12 16 22 27 32 
+key 20 deleted
+22 
+10 30 
+5 15 25 35 
+2 7 12 16 27 32 
+key 10 deleted
+22 
+12 30 
+5 15 25 35 
+2 7 16 27 32 
+key 30 deleted
+22 
+12 32 
+5 15 25 35 
+2 7 16 27 
+key 37 not found
+key 20 not found
+key 10 not found
+key 30 not found
+22 
+12 32 
+5 15 25 35 
+2 7 16 27 
+
+
+The total number of inserts = 15
+The total number of deletes = 8
+The total number of splays = 0
+The total number of nodes probed during searches = 0
+The average number of nodes probed during searches = 0.0
+The total number of rotations during splays = 0
+The average number of rotations during splays = 0.0
