@@ -19,7 +19,9 @@ class JALIp2 {
     TreeNode leftChild;
     TreeNode rightChild;
 
+    TreeNode() {
 
+    }
   }
 
   public class BST {
@@ -37,6 +39,14 @@ class JALIp2 {
 
     boolean delete(int key) {
       return false;
+    }
+
+    boolean search(int key) {
+      return true;
+    }
+
+    void printTreeBF(int key) {
+      
     }
   }
 }
