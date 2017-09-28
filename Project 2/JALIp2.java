@@ -10,8 +10,44 @@ import java.io.*;
 */
 class JALIp2 {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException{
+    Scanner in = new Scanner(new File("d2.txt"));	// for testing
+	  // Scanner in = new Scanner(System.in);									// for submission
+
     System.out.println("Hello");
+    BST bst = new BST();
+    boolean done = false;
+
+    while(!done) {
+			String line = in.nextLine();
+			String [] tokens = line.split(" ");
+			switch(tokens[0]) {
+        case "A":
+          bst.insert(Integer.parseInt(tokens[1]));
+        break;
+        case "D":
+          bst.delete(Integer.parseInt(tokens[1]));
+        break;
+        case "F":
+          bst.search(Integer.parseInt(tokens[1]));
+        break;
+        case "S":
+
+        break;
+        case "B":
+
+        break;
+        case "Z":
+
+        break;
+        case "R":
+
+        break;
+        case "E":
+          done = true;
+        break;
+      }
+    }
   }
 
   public class TreeNode {
@@ -24,7 +60,10 @@ class JALIp2 {
     }
   }
 
-  public class BST {
+  public static class BST {
+    TreeNode root;
+    int numkeys;
+
     BST() {
 
     }
@@ -34,6 +73,7 @@ class JALIp2 {
     }
 
     boolean insert(int key) {
+      System.out.println("Key " + key + " inserted");
       return true;
     }
 
@@ -46,7 +86,11 @@ class JALIp2 {
     }
 
     void printTreeBF(int key) {
-      
+
+    }
+
+    boolean splay(int key) {
+      return false;
     }
   }
 }
