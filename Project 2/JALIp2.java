@@ -11,8 +11,8 @@ import java.io.*;
 class JALIp2 {
 
 	public static void main(String[] args) throws IOException{
-    Scanner in = new Scanner(new File("d2.txt"));	// for testing
-	  // Scanner in = new Scanner(System.in);									// for submission
+    //Scanner in = new Scanner(new File("d2.txt"));	// for testing
+	  Scanner in = new Scanner(System.in);									// for submission
 
     BST bst = new BST();
     boolean done = false;
@@ -63,6 +63,10 @@ class JALIp2 {
 			System.out.println("The key is " + key);
 		}
 
+		int getKey() {
+			return key;
+		}
+
 		TreeNode getLeftChild() {
 			return leftChild;
 		}
@@ -94,9 +98,17 @@ class JALIp2 {
 
     boolean insert(int key) {
       System.out.println("Key " + key + " inserted");
-			if(root == null)
+			if(root == null) {
 				root = new TreeNode(key);
-      return true;
+      	return true;
+			}
+			TreeNode ref = root;
+			while(ref != null) {
+				if(key < ref.getLeftChild().getKey())
+
+				ref = ref.getLeftChild();
+			}
+			return false;
     }
 
     boolean delete(int key) {
