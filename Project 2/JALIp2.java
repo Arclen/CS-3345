@@ -14,7 +14,6 @@ class JALIp2 {
     Scanner in = new Scanner(new File("d2.txt"));	// for testing
 	  // Scanner in = new Scanner(System.in);									// for submission
 
-    System.out.println("Hello");
     BST bst = new BST();
     boolean done = false;
 
@@ -32,16 +31,17 @@ class JALIp2 {
           bst.search(Integer.parseInt(tokens[1]));
         break;
         case "S":
-
+					bst.splay(Integer.parseInt(tokens[1]));
         break;
         case "B":
-
+					bst.printTreeBF(0);
         break;
         case "Z":
-
+					System.out.println("The number of keys is " + bst.getNumkeys());
         break;
         case "R":
-
+					bst.makeEmpty();
+					bst = null;
         break;
         case "E":
           done = true;
@@ -50,14 +50,34 @@ class JALIp2 {
     }
   }
 
-  public class TreeNode {
+  public static class TreeNode {
     int key;
     TreeNode leftChild;
     TreeNode rightChild;
 
-    TreeNode() {
-
+    TreeNode(int k) {
+			key = k;
     }
+
+		void printKey() {
+			System.out.println("The key is " + key);
+		}
+
+		TreeNode getLeftChild() {
+			return leftChild;
+		}
+
+		TreeNode getRightChild() {
+			return rightChild;
+		}
+
+		void setLeftChild(TreeNode n) {
+			leftChild = n;
+		}
+
+		void setRightChild(TreeNode n) {
+			rightChild = n;
+		}
   }
 
   public static class BST {
@@ -65,8 +85,8 @@ class JALIp2 {
     int numkeys;
 
     BST() {
-
-    }
+			numkeys = 0;
+		}
 
     void makeEmpty() {
 
@@ -74,6 +94,8 @@ class JALIp2 {
 
     boolean insert(int key) {
       System.out.println("Key " + key + " inserted");
+			if(root == null)
+				root = new TreeNode(key);
       return true;
     }
 
@@ -86,11 +108,16 @@ class JALIp2 {
     }
 
     void printTreeBF(int key) {
-
+			System.out.println("The tree is empty");
     }
 
     boolean splay(int key) {
+			System.out.println("key " + key + " splayed");
       return false;
     }
+
+		int getNumkeys() {
+			return numkeys;
+		}
   }
 }
