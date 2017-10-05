@@ -11,15 +11,16 @@ import java.io.*;
 class JALIp2 {
 
 	public static void main(String[] args) throws IOException{
-    //Scanner in = new Scanner(new File("d2.txt"));	// for testing
+    // Scanner in = new Scanner(new File("d10.txt"));	// for testing
 	  Scanner in = new Scanner(System.in);									// for submission
 
     BST bst = new BST();
     boolean done = false;
-
     while(!done) {
 			String line = in.nextLine();
 			String [] tokens = line.split(" ");
+			if(tokens[0] == "A")
+				System.out.println(bst.insert(Integer.parseInt(tokens[1])));
 			switch(tokens[0]) {
         case "A":
           bst.insert(Integer.parseInt(tokens[1]));
@@ -41,12 +42,12 @@ class JALIp2 {
         break;
         case "R":
 					bst.makeEmpty();
-					bst = null;
         break;
         case "E":
           done = true;
         break;
       }
+			System.out.println("test");
     }
   }
 
@@ -97,16 +98,16 @@ class JALIp2 {
     }
 
     boolean insert(int key) {
-      System.out.println("Key " + key + " inserted");
+    	System.out.println("Key " + key + " inserted");
 			if(root == null) {
 				root = new TreeNode(key);
       	return true;
 			}
 			TreeNode ref = root;
 			while(ref != null) {
-				if(key < ref.getLeftChild().getKey())
+				//if(key < ref.getLeftChild().getKey())
 
-				ref = ref.getLeftChild();
+				//ref = ref.getLeftChild();
 			}
 			return false;
     }
