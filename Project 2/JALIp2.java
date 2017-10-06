@@ -17,6 +17,7 @@ class JALIp2 {
     BST bst = new BST();
     boolean done = false;
 		int numInserts = 0;
+		int numDeletes = 0;
 		int numSplays = 0;
 		int i = -1;
     while(!done) {
@@ -34,7 +35,12 @@ class JALIp2 {
 						System.out.println("Key " + i + " already exists");
         break;
         case "D":
-          bst.delete(Integer.parseInt(tokens[1]));
+					numDeletes++;
+					if(bst.delete(i)) {
+						System.out.println("Key " + i + " deleted");
+					}
+					else
+						System.out.println("Key " + i + " not found");
         break;
         case "F":
 					if(bst.search(i)) {
@@ -61,6 +67,7 @@ class JALIp2 {
       }
     }
 		System.out.println("Number of inserts: " + numInserts);
+		System.out.println("Number of deletes: " + numDeletes);
   }
 
   public static class TreeNode {
@@ -140,7 +147,59 @@ class JALIp2 {
     }
 
     boolean delete(int key) {
-      return false;
+      boolean deleted = false;
+			TreeNode refParent = new TreeNode(-1);
+			TreeNode ref = root;
+			while(ref != null) {
+				if(key == ref.getKey()) {
+					deleted = true;
+					break;
+				}
+				else if(key < ref.getKey()) {
+					if(ref.getLeftChild() == null) {
+						break;
+					}
+					else {
+						refParent = ref;
+						ref = ref.getLeftChild();
+					}
+				}
+				else if(key > ref.getKey()) {
+					if(ref.getRightChild() == null) {
+						break;
+					}
+					else {
+						refParent = ref;
+						ref = ref.getRightChild();
+					}
+				}
+			}
+
+			if(ref == null)
+				return false;
+			else {
+				if(ref.getLeftChild() == null && ref.getLeftChild() == null) { // If ref has no children
+					if(refParent.getLeftChild() == ref)
+						refParent.setLeftChild(null);
+					else refParent.setRightChild(null);
+				}
+				else if(ref.getLeftChild() != null && ref.getLeftChild() != null) { // If ref has two children
+					System.out.print(" Ok gimme a sec for this one\n");
+				}
+				else { // If ref has one child
+					if(refParent.getLeftChild() == ref) {
+						if(ref.getLeftChild() != null)
+							refParent.setLeftChild(ref.getLeftChild());
+						else refParent.setLeftChild(ref.getRightChild());
+					}
+					else {
+						if(ref.getRightChild() != null)
+							refParent.setRightChild(ref.getLeftChild());
+						else refParent.setRightChild(ref.getRightChild());
+					}
+				}
+			}
+			return deleted;
     }
 
     boolean search(int key) {
