@@ -11,8 +11,8 @@ import java.io.*;
 class JALIp2 {
 
 	public static void main(String[] args) throws IOException{
-    // Scanner in = new Scanner(new File("d10.txt"));	// for testing
-	  Scanner in = new Scanner(System.in);									// for submission
+    Scanner in = new Scanner(new File("d3.txt"));	// for testing
+	  // Scanner in = new Scanner(System.in);									// for submission
 
     BST bst = new BST();
     boolean done = false;
@@ -47,7 +47,6 @@ class JALIp2 {
           done = true;
         break;
       }
-			System.out.println("test");
     }
   }
 
@@ -98,18 +97,37 @@ class JALIp2 {
     }
 
     boolean insert(int key) {
-    	System.out.println("Key " + key + " inserted");
+    	boolean inserted = true;
+			TreeNode ref = root;
 			if(root == null) {
 				root = new TreeNode(key);
-      	return true;
+				ref = null;
 			}
-			TreeNode ref = root;
 			while(ref != null) {
-				//if(key < ref.getLeftChild().getKey())
-
-				//ref = ref.getLeftChild();
+				if(key == ref.getKey()) {
+					inserted = false;
+					break;
+				}
+				else if(key < ref.getKey()) {
+					if(ref.getLeftChild() == null) {
+						ref.setLeftChild(new TreeNode(key));
+						break;
+					}
+					else ref = ref.getLeftChild();
+				}
+				else if(key > ref.getKey()) {
+					if(ref.getRightChild() == null) {
+						ref.setRightChild(new TreeNode(key));
+						break;
+					}
+					else ref = ref.getRightChild();
+				}
 			}
-			return false;
+			if(inserted)
+				System.out.println("Key " + key + " inserted");
+			else
+				System.out.println("Key " + key + " already exists");
+			return inserted;
     }
 
     boolean delete(int key) {
