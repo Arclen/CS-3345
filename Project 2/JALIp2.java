@@ -11,7 +11,7 @@ import java.io.*;
 class JALIp2 {
 
 	public static void main(String[] args) throws IOException{
-    Scanner in = new Scanner(new File("d2.txt"));	// for testing
+    Scanner in = new Scanner(new File("d3.txt"));	// for testing
 	  // Scanner in = new Scanner(System.in);									// for submission
 
     BST bst = new BST();
@@ -227,16 +227,25 @@ class JALIp2 {
     }
 
     void printTreeBF() {
-			TreeNode ref = root;
-			if(ref == null)
-				System.out.println("The tree is empty");
-			else {
-				while(ref != null) {
+			Queue<TreeNode> currentLevel = new LinkedList<>();
+			Queue<TreeNode> nextLevel = new LinkedList<>();
+			currentLevel.add(root);
+			while(!currentLevel.isEmpty()) {
+				TreeNode ref = currentLevel.remove();
+				if(ref != null) {
 					System.out.print(ref.getKey() + " ");
-
-					ref = ref.getLeftChild();
+					nextLevel.add(ref.getLeftChild());
+					nextLevel.add(ref.getRightChild());
+				}
+				if(currentLevel.isEmpty()) {
+					System.out.print("\n");
+					Queue<TreeNode> temp = new LinkedList<>();
+					currentLevel = temp;
+					currentLevel = nextLevel;
+					nextLevel = temp;
 				}
 			}
+
     }
 
     boolean splay(int key) {
