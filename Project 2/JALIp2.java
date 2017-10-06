@@ -11,31 +11,43 @@ import java.io.*;
 class JALIp2 {
 
 	public static void main(String[] args) throws IOException{
-    Scanner in = new Scanner(new File("d3.txt"));	// for testing
+    Scanner in = new Scanner(new File("d4.txt"));	// for testing
 	  // Scanner in = new Scanner(System.in);									// for submission
 
     BST bst = new BST();
     boolean done = false;
+		int numInserts = 0;
+		int numSplays = 0;
+		int i = -1;
     while(!done) {
 			String line = in.nextLine();
 			String [] tokens = line.split(" ");
-			if(tokens[0] == "A")
-				System.out.println(bst.insert(Integer.parseInt(tokens[1])));
+			if(tokens.length == 2)
+				i = Integer.parseInt(tokens[1]);
 			switch(tokens[0]) {
         case "A":
-          bst.insert(Integer.parseInt(tokens[1]));
+					numInserts++;
+					if(bst.insert(i)) {
+						System.out.println("Key " + i + " inserted");
+					}
+					else
+						System.out.println("Key " + i + " already exists");
         break;
         case "D":
           bst.delete(Integer.parseInt(tokens[1]));
         break;
         case "F":
-          bst.search(Integer.parseInt(tokens[1]));
+					if(bst.search(i)) {
+						System.out.println("Key " + i + " found");
+					}
+					else
+						System.out.println("Key " + i + " not found");
         break;
         case "S":
 					bst.splay(Integer.parseInt(tokens[1]));
         break;
         case "B":
-					bst.printTreeBF(0);
+					bst.printTreeBF();
         break;
         case "Z":
 					System.out.println("The number of keys is " + bst.getNumkeys());
@@ -48,6 +60,7 @@ class JALIp2 {
         break;
       }
     }
+		System.out.println("Number of inserts: " + numInserts);
   }
 
   public static class TreeNode {
@@ -123,10 +136,6 @@ class JALIp2 {
 					else ref = ref.getRightChild();
 				}
 			}
-			if(inserted)
-				System.out.println("Key " + key + " inserted");
-			else
-				System.out.println("Key " + key + " already exists");
 			return inserted;
     }
 
@@ -135,10 +144,30 @@ class JALIp2 {
     }
 
     boolean search(int key) {
-      return true;
+			boolean found = false;
+			TreeNode ref = root;
+			while(ref != null) {
+				if(key == ref.getKey()) {
+					found = true;
+					break;
+				}
+				else if(key < ref.getKey()) {
+					if(ref.getLeftChild() == null) {
+						break;
+					}
+					else ref = ref.getLeftChild();
+				}
+				else if(key > ref.getKey()) {
+					if(ref.getRightChild() == null) {
+						break;
+					}
+					else ref = ref.getRightChild();
+				}
+			}
+			return found;
     }
 
-    void printTreeBF(int key) {
+    void printTreeBF() {
 			System.out.println("The tree is empty");
     }
 
