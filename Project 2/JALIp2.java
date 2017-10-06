@@ -227,7 +227,16 @@ class JALIp2 {
     }
 
     void printTreeBF() {
-			System.out.println("The tree is empty");
+			TreeNode ref = root;
+			if(ref == null)
+				System.out.println("The tree is empty");
+			else {
+				while(ref != null) {
+					System.out.print(ref.getKey() + " ");
+
+					ref = ref.getLeftChild();
+				}
+			}
     }
 
     boolean splay(int key) {
