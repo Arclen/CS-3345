@@ -11,15 +11,17 @@ import java.io.*;
 class JALIp2 {
 
 	public static void main(String[] args) throws IOException{
-    Scanner in = new Scanner(new File("d3.txt"));	// for testing
+    Scanner in = new Scanner(new File("d9.txt"));	// for testing
 	  // Scanner in = new Scanner(System.in);									// for submission
 
     BST bst = new BST();
     boolean done = false;
 		int numInserts = 0;
 		int numDeletes = 0;
-		int numSplays = 0;
+		double numSearches = 0.0;
+		double numSplays = 0.0;
 		int i = -1;
+		boolean rFlag = false;
     while(!done) {
 			String line = in.nextLine();
 			String [] tokens = line.split(" ");
@@ -28,38 +30,45 @@ class JALIp2 {
 			switch(tokens[0]) {
         case "A":
 					numInserts++;
-					if(bst.insert(i)) {
+					if(bst.insert(i) && !rFlag) {
 						System.out.println("Key " + i + " inserted");
 					}
 					else
+					if(!rFlag)
 						System.out.println("Key " + i + " already exists");
         break;
         case "D":
 					numDeletes++;
-					if(bst.delete(i)) {
+					if(bst.delete(i) && !rFlag) {
 						System.out.println("Key " + i + " deleted");
 					}
 					else
+					if(!rFlag)
 						System.out.println("Key " + i + " not found");
         break;
         case "F":
-					if(bst.search(i)) {
+					numSearches++;
+					if(bst.search(i) && !rFlag) {
 						System.out.println("Key " + i + " found");
 					}
 					else
-						System.out.println("Key " + i + " not found");
+						if(!rFlag)
+							System.out.println("Key " + i + " not found");
         break;
         case "S":
+					numSplays++;
+					if(!rFlag)
 					bst.splay(Integer.parseInt(tokens[1]));
         break;
         case "B":
 					bst.printTreeBF();
+					System.out.println();
         break;
         case "Z":
 					System.out.println("The number of keys is " + bst.getNumkeys());
         break;
         case "R":
-					bst.makeEmpty();
+					rFlag = true;
         break;
         case "E":
           done = true;
@@ -68,6 +77,13 @@ class JALIp2 {
     }
 		System.out.println("Number of inserts: " + numInserts);
 		System.out.println("Number of deletes: " + numDeletes);
+		System.out.println("Number of splays: " + (int)numSplays);
+		System.out.println("The total number of nodes probed during searches: " + bst.nodesProbed);
+		System.out.print("The average number of nodes probed during searches: ");
+		System.out.printf("%.2f", (double)bst.nodesProbed/numSearches);
+		System.out.println("\nThe total number of rotations during splays: " + bst.numRotations);
+		System.out.print("The average number of rotations during splays: ");
+		System.out.printf("%.2f", (double)bst.numRotations/numSplays);
   }
 
   public static class TreeNode {
@@ -107,13 +123,15 @@ class JALIp2 {
   public static class BST {
     TreeNode root;
     int numkeys;
+		public static int nodesProbed = 0;
+		public static int numRotations = 0;
 
     BST() {
 			numkeys = 0;
 		}
 
     void makeEmpty() {
-
+			root = null;
     }
 
     boolean insert(int key) {
@@ -124,90 +142,73 @@ class JALIp2 {
 				ref = null;
 			}
 			while(ref != null) {
-				if(key == ref.getKey()) {
+				if(key == ref.key) {
 					inserted = false;
 					break;
 				}
-				else if(key < ref.getKey()) {
-					if(ref.getLeftChild() == null) {
+				else if(key < ref.key) {
+					if(ref.leftChild == null) {
 						ref.setLeftChild(new TreeNode(key));
 						break;
 					}
-					else ref = ref.getLeftChild();
+					else ref = ref.leftChild;
 				}
-				else if(key > ref.getKey()) {
-					if(ref.getRightChild() == null) {
+				else if(key > ref.key) {
+					if(ref.rightChild == null) {
 						ref.setRightChild(new TreeNode(key));
 						break;
 					}
-					else ref = ref.getRightChild();
+					else ref = ref.rightChild;
 				}
 			}
 			return inserted;
     }
 
     boolean delete(int key) {
-      boolean deleted = false;
-			TreeNode refParent = new TreeNode(-1);
-			TreeNode ref = root;
-			while(ref != null) {
-				if(key == ref.getKey()) {
-					deleted = true;
-					break;
-				}
-				else if(key < ref.getKey()) {
-					if(ref.getLeftChild() == null) {
-						break;
-					}
-					else {
-						refParent = ref;
-						ref = ref.getLeftChild();
-					}
-				}
-				else if(key > ref.getKey()) {
-					if(ref.getRightChild() == null) {
-						break;
-					}
-					else {
-						refParent = ref;
-						ref = ref.getRightChild();
-					}
-				}
-			}
-
-			if(ref == null)
-				return false;
-			else {
-				if(ref.getLeftChild() == null && ref.getLeftChild() == null) { // If ref has no children
-					if(refParent.getLeftChild() == ref)
-						refParent.setLeftChild(null);
-					else refParent.setRightChild(null);
-				}
-				else if(ref.getLeftChild() != null && ref.getLeftChild() != null) { // If ref has two children
-					System.out.print(" Ok gimme a sec for this one\n");
-				}
-				else { // If ref has one child
-					if(refParent.getLeftChild() == ref) {
-						if(ref.getLeftChild() != null)
-							refParent.setLeftChild(ref.getLeftChild());
-						else refParent.setLeftChild(ref.getRightChild());
-					}
-					else {
-						if(ref.getRightChild() != null)
-							refParent.setRightChild(ref.getLeftChild());
-						else refParent.setRightChild(ref.getRightChild());
-					}
-				}
-			}
-			return deleted;
+			if(remove(key, root) != null)
+				return true;
+			return false;
     }
+
+		private TreeNode remove(int x, TreeNode t) {
+			 if( t == null )
+					 return t;   // Item not found; do nothing
+			 int compareResult = x - t.key;
+			 if( compareResult < 0 )
+					 t.leftChild = remove( x, t.leftChild );
+			 else if( compareResult > 0 )
+					 t.rightChild = remove( x, t.rightChild );
+			 else if( t.leftChild != null && t.rightChild != null ) // Two children
+			 {
+					 t.key = minNode(t.rightChild ).key;
+					 t.rightChild = remove( t.key, t.rightChild );
+			 }
+			 else
+					 t = ( t.leftChild != null ) ? t.leftChild : t.rightChild;
+			 return t;
+	 	}
+
+		private TreeNode maxNode(TreeNode node) {
+			if(node != null )
+				while( node.rightChild != null )
+					node = node.rightChild;
+			return node;
+		}
+		private TreeNode minNode(TreeNode node) {
+			if(node != null )
+				while( node.leftChild != null )
+					node = node.leftChild;
+			return node;
+		}
 
     boolean search(int key) {
 			boolean found = false;
 			TreeNode ref = root;
 			while(ref != null) {
+				nodesProbed++;
 				if(key == ref.getKey()) {
 					found = true;
+					nodesProbed-=3;
 					break;
 				}
 				else if(key < ref.getKey()) {
@@ -233,11 +234,13 @@ class JALIp2 {
 			while(!currentLevel.isEmpty()) {
 				TreeNode ref = currentLevel.remove();
 				if(ref != null) {
-					System.out.print(ref.getKey() + " ");
-					nextLevel.add(ref.getLeftChild());
-					nextLevel.add(ref.getRightChild());
+					System.out.print(ref.key + " ");
+					if(ref.leftChild != null)
+						nextLevel.add(ref.leftChild);
+					if(ref.rightChild != null)
+						nextLevel.add(ref.rightChild);
 				}
-				if(currentLevel.isEmpty()) {
+				if(currentLevel.isEmpty() && (ref.getLeftChild() != null || ref.getRightChild() != null)) {
 					System.out.print("\n");
 					Queue<TreeNode> temp = new LinkedList<>();
 					currentLevel = temp;
@@ -249,8 +252,25 @@ class JALIp2 {
     }
 
     boolean splay(int key) {
-			System.out.println("key " + key + " splayed");
-      return false;
+			TreeNode ref = root;
+			while(ref != null) {
+				if(key == ref.getKey()) {
+					break;
+				}
+				else if(key < ref.getKey()) {
+					if(ref.getLeftChild() == null) {
+						break;
+					}
+					else ref = ref.getLeftChild();
+				}
+				else if(key > ref.getKey()) {
+					if(ref.getRightChild() == null) {
+						break;
+					}
+					else ref = ref.getRightChild();
+				}
+			}
+			return true;
     }
 
 		int getNumkeys() {
