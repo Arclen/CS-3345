@@ -11,15 +11,15 @@ import java.io.*;
 class JALIp2 {
 
 	public static void main(String[] args) throws IOException{
-    Scanner in = new Scanner(new File("d9.txt"));	// for testing
+    Scanner in = new Scanner(new File("d10.txt"));	// for testing
 	  // Scanner in = new Scanner(System.in);									// for submission
 
     BST bst = new BST();
     boolean done = false;
 		int numInserts = 0;
 		int numDeletes = 0;
-		double numSearches = 0.0;
-		double numSplays = 0.0;
+		double numSearches = 1.0;
+		double numSplays = 1.0;
 		int i = -1;
 		boolean rFlag = false;
     while(!done) {
@@ -57,7 +57,6 @@ class JALIp2 {
         break;
         case "S":
 					numSplays++;
-					if(!rFlag)
 					bst.splay(Integer.parseInt(tokens[1]));
         break;
         case "B":
@@ -252,24 +251,58 @@ class JALIp2 {
     }
 
     boolean splay(int key) {
+			TreeNode refParent = new TreeNode(-1);
 			TreeNode ref = root;
-			while(ref != null) {
-				if(key == ref.getKey()) {
-					break;
+			if(ref == null)
+				return false;
+			if(ref.key == key) {
+				if(ref.getLeftChild() == null && ref.getLeftChild() == null) { // The root has no children
+					root = null;
 				}
-				else if(key < ref.getKey()) {
-					if(ref.getLeftChild() == null) {
-						break;
-					}
-					else ref = ref.getLeftChild();
+				else if(ref.getLeftChild() != null && ref.getLeftChild() != null) { // The root has two children
+					root = minNode(ref.rightChild);
+					root.setRightChild(ref.rightChild);
+					root.setLeftChild(ref.leftChild);
+					key = minNode(ref.rightChild).getKey();
 				}
-				else if(key > ref.getKey()) {
-					if(ref.getRightChild() == null) {
-						break;
+				else {
+					if(ref.getLeftChild() != null) { // The root has one child
+						root = maxNode(ref.leftChild);
+						root.setLeftChild(ref.leftChild);
+						key = minNode(ref.rightChild).getKey();
 					}
-					else ref = ref.getRightChild();
+					else {
+						root = minNode(ref.rightChild);
+						root.setRightChild(ref.rightChild);
+						key = minNode(ref.rightChild).getKey();
+					}
 				}
 			}
+			while(ref != null) {
+				numRotations++;
+				if(key == ref.key) {
+					break;
+				}
+				else if(key < ref.key) {
+					if(ref.leftChild == null) {
+						break;
+					}
+					else {
+						refParent = ref;
+						ref = ref.leftChild;
+					}
+				}
+				else if(key > ref.key) {
+					if(ref.rightChild == null) {
+						break;
+					}
+					else {
+						refParent = ref;
+						ref = ref.rightChild;
+					}
+				}
+			}
+
 			return true;
     }
 
