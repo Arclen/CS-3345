@@ -11,7 +11,7 @@ import java.io.*;
 class JALIp2 {
 
 	public static void main(String[] args) throws IOException{
-    Scanner in = new Scanner(new File("d3.txt"));	// for testing
+    Scanner in = new Scanner(new File("d4.txt"));	// for testing
 	  // Scanner in = new Scanner(System.in);									// for submission
 
     BST bst = new BST();
@@ -50,10 +50,12 @@ class JALIp2 {
 						System.out.println("Key " + i + " not found");
         break;
         case "S":
+					numSplays++;
 					bst.splay(Integer.parseInt(tokens[1]));
         break;
         case "B":
 					bst.printTreeBF();
+					System.out.println();
         break;
         case "Z":
 					System.out.println("The number of keys is " + bst.getNumkeys());
@@ -68,6 +70,7 @@ class JALIp2 {
     }
 		System.out.println("Number of inserts: " + numInserts);
 		System.out.println("Number of deletes: " + numDeletes);
+		System.out.println("Number of splays: " + numSplays);
   }
 
   public static class TreeNode {
@@ -124,83 +127,157 @@ class JALIp2 {
 				ref = null;
 			}
 			while(ref != null) {
-				if(key == ref.getKey()) {
+				if(key == ref.key) {
 					inserted = false;
 					break;
 				}
-				else if(key < ref.getKey()) {
-					if(ref.getLeftChild() == null) {
+				else if(key < ref.key) {
+					if(ref.leftChild == null) {
 						ref.setLeftChild(new TreeNode(key));
 						break;
 					}
-					else ref = ref.getLeftChild();
+					else ref = ref.leftChild;
 				}
-				else if(key > ref.getKey()) {
-					if(ref.getRightChild() == null) {
+				else if(key > ref.key) {
+					if(ref.rightChild == null) {
 						ref.setRightChild(new TreeNode(key));
 						break;
 					}
-					else ref = ref.getRightChild();
+					else ref = ref.rightChild;
 				}
 			}
 			return inserted;
     }
 
     boolean delete(int key) {
-      boolean deleted = false;
-			TreeNode refParent = new TreeNode(-1);
-			TreeNode ref = root;
-			while(ref != null) {
-				if(key == ref.getKey()) {
-					deleted = true;
-					break;
-				}
-				else if(key < ref.getKey()) {
-					if(ref.getLeftChild() == null) {
-						break;
-					}
-					else {
-						refParent = ref;
-						ref = ref.getLeftChild();
-					}
-				}
-				else if(key > ref.getKey()) {
-					if(ref.getRightChild() == null) {
-						break;
-					}
-					else {
-						refParent = ref;
-						ref = ref.getRightChild();
-					}
-				}
-			}
-
-			if(ref == null)
-				return false;
-			else {
-				if(ref.getLeftChild() == null && ref.getLeftChild() == null) { // If ref has no children
-					if(refParent.getLeftChild() == ref)
-						refParent.setLeftChild(null);
-					else refParent.setRightChild(null);
-				}
-				else if(ref.getLeftChild() != null && ref.getLeftChild() != null) { // If ref has two children
-					System.out.print(" Ok gimme a sec for this one\n");
-				}
-				else { // If ref has one child
-					if(refParent.getLeftChild() == ref) {
-						if(ref.getLeftChild() != null)
-							refParent.setLeftChild(ref.getLeftChild());
-						else refParent.setLeftChild(ref.getRightChild());
-					}
-					else {
-						if(ref.getRightChild() != null)
-							refParent.setRightChild(ref.getLeftChild());
-						else refParent.setRightChild(ref.getRightChild());
-					}
-				}
-			}
-			return deleted;
+      // boolean deleted = false;
+			// TreeNode refParent = new TreeNode(-1);
+			// TreeNode ref = root;
+			// boolean rootFlag = false;
+			// if(ref.key == key) {
+			// 	if(ref.getLeftChild() == null && ref.getLeftChild() == null) { // The root has no children
+			// 		root = null;
+			// 	}
+			// 	else if(ref.getLeftChild() != null && ref.getLeftChild() != null) { // The root has two children
+			// 		root = minNode(ref.rightChild);
+			// 		root.setRightChild(ref.rightChild);
+			// 		root.setLeftChild(ref.leftChild);
+			// 		key = minNode(ref.rightChild).getKey();
+			// 	}
+			// 	else {
+			// 		if(ref.getLeftChild() != null) { // The root has one child
+			// 			root = maxNode(ref.leftChild);
+			// 			root.setLeftChild(ref.leftChild);
+			// 			key = minNode(ref.rightChild).getKey();
+			// 		}
+			// 		else {
+			// 			root = minNode(ref.rightChild);
+			// 			root.setRightChild(ref.rightChild);
+			// 			key = minNode(ref.rightChild).getKey();
+			// 		}
+			// 	}
+			// 	rootFlag = true;
+			// 	System.out.println("DEBUG");
+			// }
+			// while(ref != null) {
+			// 	if(key == ref.key) {
+			// 		deleted = true;
+			// 		break;
+			// 	}
+			// 	else if(key < ref.key) {
+			// 		if(ref.leftChild == null) {
+			// 			break;
+			// 		}
+			// 		else {
+			// 			refParent = ref;
+			// 			ref = ref.leftChild;
+			// 		}
+			// 	}
+			// 	else if(key > ref.key) {
+			// 		if(ref.rightChild == null) {
+			// 			break;
+			// 		}
+			// 		else {
+			// 			refParent = ref;
+			// 			ref = ref.rightChild;
+			// 		}
+			// 	}
+			// }
+			//
+			// if(ref == null)
+			// 	return false;
+			// else {
+			// 	if(ref.getLeftChild() == null && ref.getLeftChild() == null) { // If ref has no children
+			// 		if(refParent.getLeftChild() == ref)
+			// 			refParent.setLeftChild(null);
+			// 		else refParent.setRightChild(null);
+			// 	}
+			// 	else if(ref.getLeftChild() != null && ref.getLeftChild() != null) { // If ref has two children
+			// 		if(refParent.leftChild == ref) {
+			// 			refParent.setLeftChild(minNode(ref.rightChild));
+			// 			if(ref.leftChild != null && refParent.leftChild != null)
+			// 				refParent.leftChild.setLeftChild(ref.leftChild);
+			// 		}
+			// 		else {
+			// 			refParent.setRightChild(minNode(ref.rightChild));
+			// 			if(ref.rightChild != null && refParent.rightChild != null) /////////////
+			// 				refParent.leftChild.setLeftChild(ref.leftChild);
+			// 		}
+			// 	}
+			// 	else { // If ref has one child
+			// 		if(refParent.getLeftChild() == ref) {
+			// 			if(ref.getLeftChild() != null)
+			// 				refParent.setLeftChild(ref.getLeftChild());
+			// 			else refParent.setLeftChild(ref.getRightChild());
+			// 		}
+			// 		else {
+			// 			if(ref.getRightChild() != null)
+			// 				refParent.setRightChild(ref.getLeftChild());
+			// 			else refParent.setRightChild(ref.getRightChild());
+			// 		}
+			// 	}
+			// }
+			// if(rootFlag) {
+			// 	if(refParent.leftChild == ref) {
+			// 		refParent.setLeftChild(null);
+			// 	}
+			// 	else refParent.setRightChild(null);
+			// }
+			// return deleted;
+			remove(key, root);
+			return true;
     }
+
+		private TreeNode remove( int x, TreeNode t ) {
+			 if( t == null )
+					 return t;   // Item not found; do nothing
+			 int compareResult = x - t.key;
+			 if( compareResult < 0 )
+					 t.leftChild = remove( x, t.leftChild );
+			 else if( compareResult > 0 )
+					 t.rightChild = remove( x, t.rightChild );
+			 else if( t.leftChild != null && t.rightChild != null ) // Two children
+			 {
+					 t.key = minNode(t.rightChild ).key;
+					 t.rightChild = remove( t.key, t.rightChild );
+			 }
+			 else
+					 t = ( t.leftChild != null ) ? t.leftChild : t.rightChild;
+			 return t;
+	 	}
+
+		private TreeNode maxNode(TreeNode node) {
+			if(node != null )
+				while( node.rightChild != null )
+					node = node.rightChild;
+			return node;
+		}
+		private TreeNode minNode(TreeNode node) {
+			if(node != null )
+				while( node.leftChild != null )
+					node = node.leftChild;
+			return node;
+		}
 
     boolean search(int key) {
 			boolean found = false;
@@ -233,11 +310,13 @@ class JALIp2 {
 			while(!currentLevel.isEmpty()) {
 				TreeNode ref = currentLevel.remove();
 				if(ref != null) {
-					System.out.print(ref.getKey() + " ");
-					nextLevel.add(ref.getLeftChild());
-					nextLevel.add(ref.getRightChild());
+					System.out.print(ref.key + " ");
+					if(ref.leftChild != null)
+						nextLevel.add(ref.leftChild);
+					if(ref.rightChild != null)
+						nextLevel.add(ref.rightChild);
 				}
-				if(currentLevel.isEmpty()) {
+				if(currentLevel.isEmpty() && (ref.getLeftChild() != null || ref.getRightChild() != null)) {
 					System.out.print("\n");
 					Queue<TreeNode> temp = new LinkedList<>();
 					currentLevel = temp;
