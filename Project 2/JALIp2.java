@@ -2,11 +2,11 @@ import java.util.*;
 import java.io.*;
 /*
  CS 3345
- Project 1
+ Project 2
  javac 1.8.0_141-2-redhat
  java version "1.8.0_131"
  @author Jacob Liou
- date 8/31/2017
+ date 10/16/2017
 */
 class JALIp2 {
 
