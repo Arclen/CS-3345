@@ -34,7 +34,7 @@ class JALIp3 {
           uni.printSets();
         break;
         case "s":
-          System.out.println("nice");
+          uni.printStats();
         break;
         case "m":
           System.out.println("how tf am i gonna do this");
@@ -66,7 +66,8 @@ class JALIp3 {
       return 69;
     }
     void printStats() {
-
+        System.out.printf("Number of sets remaining =  %4d\n", numberOfSets());
+        System.out.printf("Mean path length in find = %6.2f ", 2342.2342342);
     }
     void printSets() {
       for(int i: contents) {
