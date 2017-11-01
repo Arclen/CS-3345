@@ -57,7 +57,7 @@ class JALIp3 {
         contents[i] = -1;
     }
     void union(int x, int y) {
-
+      contents[y] = x;
     }
     int find(int y) {
       return 0;
