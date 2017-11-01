@@ -10,11 +10,11 @@ import java.io.*;
 */
 class JALIp3 {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException{
     UnionFind uni = null;
 
-    // Scanner in = new Scanner(new File(".txt"));	// for testing
-	  Scanner in = new Scanner(System.in);									// for submission
+    Scanner in = new Scanner(new File("d1.txt"));	// for testing
+	  // Scanner in = new Scanner(System.in);									// for submission
     boolean done = false;
 
     while(!done) {
@@ -57,7 +57,20 @@ class JALIp3 {
         contents[i] = -1;
     }
     void union(int x, int y) {
-      contents[y] = x;
+      if(contents[x] == -1 && contents[y] == -1) { // See if they are both unconnected
+        contents[y] = x;
+        System.out.println(x);
+      }
+      else {
+        if(contents[y] == -1) {
+          contents[y] = contents[x];
+          System.out.println(contents[x]);
+        }
+        else {
+          contents[x] = contents[y];
+          System.out.println(contents[y]);
+        }
+      }
     }
     int find(int y) {
       return 0;
