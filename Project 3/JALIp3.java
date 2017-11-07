@@ -56,37 +56,67 @@ class JALIp3 {
       for(int i=0; i<n; i++)
         contents[i] = -1;
     }
+
     void union(int x, int y) {
       if(contents[x] == -1 && contents[y] == -1) { // See if they are both unconnected
         contents[y] = x;
-        System.out.println(x);
+        contents[x]--;
+        System.out.println(x + " " + (-1*contents[x]) + " first case");
+      }
+      else if(contents[x] < -1 || contents[y] < -1) {
+        if(contents[x] > contents[y]) // If y has the bigger subtree
+        {
+          contents[x] = y;
+          contents[y]--;
+          System.out.println(contents[x] + " " +  (-1*contents[x]) + " second case");
+        }
+        else // If x has the bigger subtree or it is the same size as y
+        {
+          contents[y] = x;
+          contents[x]--;
+          System.out.println(contents[y] + " " + (-1*contents[y]) + " second case");
+        }
       }
       else {
         if(contents[y] == -1) {
           contents[y] = contents[x];
-          System.out.println(contents[x]);
+          contents[y]--;
+          System.out.println(contents[x] + " third case");
         }
         else {
           contents[x] = contents[y];
-          System.out.println(contents[y]);
+          contents[x]--;
+          System.out.println(contents[y] + " third case");
         }
       }
     }
+
     int find(int y) {
-      return 0;
+      int point = 0;
+      if(y == contents[point])
+        return point;
+      return 100;
     }
+
     int numberOfSets() {
-      return 69;
+      int num = 0;
+      for(int i:contents)
+        if(i < 0)
+          num++;
+      return num;
     }
+
     void printStats() {
         System.out.printf("Number of sets remaining =  %4d\n", numberOfSets());
-        System.out.printf("Mean path length in find = %6.2f ", 2342.2342342);
+        System.out.printf("Mean path length in find = %6.2f\n", 2342.2342342);
     }
+
     void printSets() {
       for(int i: contents) {
         System.out.print(i + " ");
       }
       System.out.print("\n");
     }
+
   }
 }
