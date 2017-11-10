@@ -63,8 +63,8 @@ class JALIp3 {
         contents[x]--;
         System.out.println(x + " " + (-1*contents[x]) + " first case");
       }
-      else if(contents[x] < -1 || contents[y] < -1) {
-        if(contents[x] > contents[y]) // If y has the bigger subtree
+      else if(find(x) < -1 || find(x) < -1) {
+        if(find(x) > find(y)) // If y has the bigger subtree
         {
           contents[x] = y;
           contents[y]--;
@@ -81,12 +81,12 @@ class JALIp3 {
         if(contents[y] == -1) {
           contents[y] = contents[x];
           contents[y]--;
-          System.out.println(contents[x] + " third case");
+          System.out.println(contents[x] + " " + find(x) + " third case");
         }
         else {
           contents[x] = contents[y];
           contents[x]--;
-          System.out.println(contents[y] + " third case");
+          System.out.println(contents[y] + " " + find(y) + " third case");
         }
       }
     }
@@ -96,8 +96,7 @@ class JALIp3 {
       {
         return y;
       }
-      else find(contents[y]);
-      return -1;
+      else return find(contents[y]);
     }
 
     int numberOfSets() {
