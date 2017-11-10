@@ -92,10 +92,12 @@ class JALIp3 {
     }
 
     int find(int y) {
-      int point = 0;
-      if(y == contents[point])
-        return point;
-      return 100;
+      if(contents[y] < 0)
+      {
+        return y;
+      }
+      else find(contents[y]);
+      return -1;
     }
 
     int numberOfSets() {
