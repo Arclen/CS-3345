@@ -79,12 +79,12 @@ class JALIp3 {
       }
       else {
         if(contents[y] == -1) {
-          contents[y] = contents[x];
+          contents[x] = y;
           contents[y]--;
           System.out.println(contents[x] + " " + find(x) + " third case");
         }
         else {
-          contents[x] = contents[y];
+          contents[y] = x;
           contents[x]--;
           System.out.println(contents[y] + " " + find(y) + " third case");
         }
