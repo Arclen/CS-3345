@@ -13,8 +13,8 @@ class JALIp3 {
   public static void main(String[] args) throws IOException{
     UnionFind uni = null;
 
-    Scanner in = new Scanner(new File("d1.txt"));	// for testing
-	  // Scanner in = new Scanner(System.in);									// for submission
+    // Scanner in = new Scanner(new File("d1.txt"));	// for testing
+	  Scanner in = new Scanner(System.in);				// for submission
     boolean done = false;
 
     while(!done) {
@@ -37,7 +37,7 @@ class JALIp3 {
           uni.printStats();
         break;
         case "m":
-          System.out.println("how tf am i gonna do this");
+          uni = new UnionFind((int) Math.pow(2, ((int) Math.pow(2,Integer.parseInt(tokens[1])))));
         break;
         case "e":
           done = true;
@@ -61,11 +61,9 @@ class JALIp3 {
 
     void union(int x, int y) {
       if(contents[x] == y) {
-        // contents[find(y)]--;
         System.out.println(x + " " + (-1*contents[find(y)]));
       }
       else if(contents[y] == x) {
-        // contents[find(x)]--;
         System.out.println(x + " " + (-1*contents[find(x)]));
       }
       else if(contents[x] == -1 && contents[y] == -1) { // See if they are both unconnected
@@ -77,12 +75,12 @@ class JALIp3 {
         if(contents[x] != -1 && contents[y] == -1) {
           contents[y] = find(x);
           contents[find(x)]--;
-          System.out.println(find(contents[x]) + " " + (-1*contents[find(x)]) + " second case v0.1");
+          System.out.println(find(x) + " " + (-1*contents[find(x)]) + " second case v0.1");
         }
         else if(contents[x] == -1 && contents[y] != -1) {
           contents[x] = find(y);
           contents[find(y)]--;
-          System.out.println(find(contents[y]) + " " +  (-1*contents[find(y)]) + " second case v0.2");
+          System.out.println(find(y) + " " +  (-1*contents[find(y)]) + " second case v0.2");
         }
         else if(contents[find(x)] < -1 || contents[find(y)] < -1) {
           if(contents[find(x)] > contents[find(y)]) // If y has the bigger subtree
