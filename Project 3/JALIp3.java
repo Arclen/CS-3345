@@ -50,43 +50,54 @@ class JALIp3 {
   public static class UnionFind {
 
     int[] contents;
+    static int mean;
 
     UnionFind(int n) {
+      mean = 0;
       contents = new int[n];
       for(int i=0; i<n; i++)
         contents[i] = -1;
     }
 
     void union(int x, int y) {
-      if(contents[x] == -1 && contents[y] == -1) { // See if they are both unconnected
-        contents[y] = x;
+      if(contents[x] == y) {
+        // contents[find(y)]--;
+        System.out.println(x + " " + (-1*contents[find(y)]));
+      }
+      else if(contents[y] == x) {
+        // contents[find(x)]--;
+        System.out.println(x + " " + (-1*contents[find(x)]));
+      }
+      else if(contents[x] == -1 && contents[y] == -1) { // See if they are both unconnected
+        contents[y] = find(x);
         contents[x]--;
         System.out.println(x + " " + (-1*contents[x]) + " first case");
       }
-      else if(find(x) < -1 || find(x) < -1) {
-        if(find(x) > find(y)) // If y has the bigger subtree
-        {
-          contents[x] = y;
-          contents[y]--;
-          System.out.println(contents[x] + " " +  (-1*contents[x]) + " second case");
-        }
-        else // If x has the bigger subtree or it is the same size as y
-        {
-          contents[y] = x;
-          contents[x]--;
-          System.out.println(contents[y] + " " + (-1*contents[y]) + " second case");
-        }
-      }
       else {
-        if(contents[y] == -1) {
-          contents[x] = y;
-          contents[y]--;
-          System.out.println(contents[x] + " " + find(x) + " third case");
+        if(contents[x] != -1 && contents[y] == -1) {
+          contents[y] = find(x);
+          contents[find(x)]--;
+          System.out.println(find(contents[x]) + " " + (-1*contents[find(x)]) + " second case v0.1");
         }
-        else {
-          contents[y] = x;
-          contents[x]--;
-          System.out.println(contents[y] + " " + find(y) + " third case");
+        else if(contents[x] == -1 && contents[y] != -1) {
+          contents[x] = find(y);
+          contents[find(y)]--;
+          System.out.println(find(contents[y]) + " " +  (-1*contents[find(y)]) + " second case v0.2");
+        }
+        else if(contents[find(x)] < -1 || contents[find(y)] < -1) {
+          if(contents[find(x)] > contents[find(y)]) // If y has the bigger subtree
+          {
+            contents[find(y)] += contents[find(x)];
+            contents[find(x)] = find(y);
+            contents[x] = find(y);
+            System.out.println(find(contents[x]) + " " +  (-1*contents[find(x)]) + " second case v1");
+          }
+          else { // If x has the bigger subtree or it is the same size as y
+            contents[find(x)] += contents[find(y)];
+            contents[find(y)] = find(x);
+            contents[y] = find(x);
+            System.out.println(find(contents[y]) + " " + (-1*contents[find(y)]) + " second case v2");
+          }
         }
       }
     }
