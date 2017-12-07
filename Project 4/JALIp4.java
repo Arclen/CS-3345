@@ -11,20 +11,6 @@ import java.io.*;
 */
 class JALIp4 {
 
-  /*
-  DO NOT FORGET TO SWITCH TO SUBMISSION MODE
-  DO NOT FORGET TO SWITCH TO SUBMISSION MODE
-  DO NOT FORGET TO SWITCH TO SUBMISSION MODE
-  DO NOT FORGET TO SWITCH TO SUBMISSION MODE
-  DO NOT FORGET TO SWITCH TO SUBMISSION MODE
-  DO NOT FORGET TO SWITCH TO SUBMISSION MODE
-  DO NOT FORGET TO SWITCH TO SUBMISSION MODE
-  DO NOT FORGET TO SWITCH TO SUBMISSION MODE
-  DO NOT FORGET TO SWITCH TO SUBMISSION MODE
-  DO NOT FORGET TO SWITCH TO SUBMISSION MODE
-  DO NOT FORGET TO SWITCH TO SUBMISSION MODE
-  */
-
   public static void main(String[] args) throws IOException {
     Scanner in = new Scanner(new File("d1.txt"));	// for testing
 	  // Scanner in = new Scanner(System.in);				// for submission
@@ -42,7 +28,6 @@ class JALIp4 {
       String [] tokens = read.split(" ");
 
       if(line == 1) {
-        //System.out.println("The graph will have " + Integer.parseInt(read) + " vertices");
         for(int i=0; i<Integer.parseInt(read); i++) {
           nodes.add(new Node(i+1));
         }
@@ -52,7 +37,6 @@ class JALIp4 {
       else if(line == 2) {
         start = Integer.parseInt(tokens[0]);
         end = Integer.parseInt(tokens[1]);
-        //System.out.println("The path will start at Node " + nodes.get(start-1).getIndex() + " and end at Node " + nodes.get(end-1).getIndex());
       }
 
       else {
@@ -62,12 +46,14 @@ class JALIp4 {
       line++;
     }
 
-    // for(Edge e: edges) {
-    //   e.printEdge();
-    // }
 
-    SPFA(nodes, edges, nodes.get(start), nodes.get(end));
-    longestPath(nodes, edges, nodes.get(start), nodes.get(end));
+    if(negCycExists(nodes, edges)) {
+      System.out.println("Negative Cost Cycle in Graph");
+    }
+    else {
+      SPFA(nodes, edges, nodes.get(start), nodes.get(end));
+      longestPath(nodes, edges, nodes.get(start), nodes.get(end));
+    }
   }
 
 
@@ -125,24 +111,70 @@ class JALIp4 {
     Queue<Node> q = new LinkedList<Node>();
     boolean[] cont = new boolean[nodes.size()];
     int pl = 0;
+    boolean breaker = false;
     Arrays.fill(cont, false);
     for(Node n: nodes) {
-      n.setDist(1000000);
+      n.setDist(10000000);
     }
     start.setDist(0);
     q.add(start);
-    while(q.size() != 0) {
-      // System.out.println(q.peek().getIndex() + " ");
+    System.out.print(start.getIndex()-1 + " ");
+    cont[0] = true;
+    while(q.size() > 0) {
+      Node u = q.poll();
+      cont[u.getIndex()-1] = false;
+      for(Edge e: edges) {
+        if(u.getDist() + e.getWeight() < e.getEnd().getDist()) {
+          e.getEnd().setDist(u.getDist() + e.getWeight());
+          if(e.getEnd() == end || u == end) {
+            pl += e.getEnd().getDist();
+            for(Node no: q)
+              System.out.print(no.getIndex() + " ");
+            System.out.print(pl);
+            System.out.println();
+            breaker = true;
+            if(breaker)
+              break;
+          }
+          if(!cont[e.getEnd().getIndex()-1]) {
+            q.add(e.getEnd());
+            cont[e.getEnd().getIndex()-1] = true;
+          }
+        }
+      }
+      if(breaker)
+        break;
+    }
+  }
+
+  public static void longestPath(ArrayList<Node> nodes, ArrayList<Edge> edges, Node start, Node end) {
+    Queue<Node> q = new LinkedList<Node>();
+    boolean[] cont = new boolean[nodes.size()];
+    int pl = 0;
+    int counter = 0;
+    Arrays.fill(cont, false);
+    for(Node n: nodes) {
+      n.setDist(10000000);
+    }
+    start.setDist(0);
+    q.add(start);
+    System.out.print(start.getIndex()-1 + " ");
+    cont[0] = true;
+    while(q.size() > 0) {
       Node u = q.poll();
       for(Edge e: edges) {
-        if(e.getStart().getDist() + e.getWeight() < e.getEnd().getDist()) {
-          e.getEnd().setDist(e.getStart().getDist() + e.getWeight());
-          // if(e.getEnd() == end) {
-          //   pl = e.getEnd().getDist();
-          //   for(Node no: q)
-          //     System.out.print(no.getIndex() + " ");
-          //   System.out.println(pl);
-          // }
+        if(u.getDist() + e.getWeight() < e.getEnd().getDist()) {
+          e.getEnd().setDist(u.getDist() + e.getWeight());
+          if(e.getEnd() == end) {
+            counter++;
+            pl += e.getEnd().getDist();
+            if(counter > 1) {
+              for(Node no: q)
+                System.out.print(no.getIndex() + " ");
+              System.out.print(pl);
+              System.out.println();
+            }
+          }
           if(!cont[e.getEnd().getIndex()-1]) {
             q.add(e.getEnd());
             cont[e.getEnd().getIndex()-1] = true;
@@ -150,11 +182,14 @@ class JALIp4 {
         }
       }
     }
-    System.out.print(end.getDist());
   }
 
-  public static void longestPath(ArrayList<Node> nodes, ArrayList<Edge> edges, Node start, Node end) {
-    System.out.println("I'd buy that for a dollah");
+  public static boolean negCycExists(ArrayList<Node> nodes, ArrayList<Edge> edges) {
+    for(Edge e: edges) {
+      if(e.getWeight() < 0)
+        return true;
+    }
+    return false;
   }
 
 }
