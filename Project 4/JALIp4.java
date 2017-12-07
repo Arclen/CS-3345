@@ -12,8 +12,8 @@ import java.io.*;
 class JALIp4 {
 
   public static void main(String[] args) throws IOException {
-    Scanner in = new Scanner(new File("d1.txt"));	// for testing
-	  // Scanner in = new Scanner(System.in);				// for submission
+    // Scanner in = new Scanner(new File("d1.txt"));	// for testing
+	  Scanner in = new Scanner(System.in);				// for submission
 
     ArrayList<Node> nodes = new ArrayList<Node>();
     ArrayList<Edge> edges = new ArrayList<Edge>();
